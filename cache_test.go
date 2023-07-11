@@ -198,9 +198,7 @@ func Test_Expire(t *testing.T) {
 					if err != nil {
 						t.Error(err)
 					}
-					if err := cache.Purge(); err != nil {
-						t.Error(err)
-					}
+					cache.Purge()
 				}
 				if err := store.ExpireCache(); err != nil {
 					t.Error(err)

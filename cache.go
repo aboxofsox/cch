@@ -66,7 +66,7 @@ func (c *Cache) Replace(key string, newValue any) error {
 }
 
 // Purge clears the cache
-func (c *Cache) Purge() error {
+func (c *Cache) Purge() {
 	c.storage.Range(func(key, value any) bool {
 		if err := c.Remove(key.(string)); err != nil {
 			fmt.Println(err.Error())
@@ -74,7 +74,6 @@ func (c *Cache) Purge() error {
 		}
 		return true
 	})
-	return nil
 }
 
 // Map returns a map[string]any of the given cache
