@@ -44,9 +44,9 @@ func Test_Store(t *testing.T) {
 		}
 
 		for k, v := range tests {
-			got, err := cache.Get(k)
-			if err != nil {
-				t.Error(err)
+			got, exists := cache.Get(k)
+			if !exists {
+				t.Error("key does not exist")
 			}
 
 			if got != v {
@@ -143,9 +143,9 @@ func Test_StoreConcurrency(t *testing.T) {
 			t.Error(err)
 		}
 		for k, v := range tests {
-			got, err := cache.Get(k)
-			if err != nil {
-				t.Error(err)
+			got, exists := cache.Get(k)
+			if !exists {
+				t.Error("key does not exist")
 			}
 			if got != v {
 				t.Errorf("expected %v got %v", v, got)
@@ -249,9 +249,9 @@ func Test_Generics(t *testing.T) {
 		}
 
 		for k, v := range tests {
-			got, err := cache.Get(k)
-			if err != nil {
-				t.Error(err)
+			got, exists := cache.Get(k)
+			if !exists {
+				t.Error("key does not exist")
 			}
 			if !reflect.DeepEqual(v, got) {
 				t.Errorf("expected %v but got %v", v, got)
@@ -283,18 +283,18 @@ func Test_Update(t *testing.T) {
 		t.Error(err)
 	}
 
-	v, err := cache.Get("foo")
-	if err != nil {
-		t.Error(err)
+	v, exists := cache.Get("foo")
+	if !exists {
+		t.Error("key does not exist")
 	}
 
 	if err := cache.Replace("foo", v.(int)+1); err != nil {
 		t.Error(err)
 	}
 
-	v, err = cache.Get("foo")
-	if err != nil {
-		t.Error(err)
+	v, exists = cache.Get("foo")
+	if !exists {
+		t.Error("key does not exist")
 	}
 
 	if v.(int) != 8 {

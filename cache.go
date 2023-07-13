@@ -37,15 +37,15 @@ func (c *Cache) Remove(key string) error {
 }
 
 // Get gets an item from the cache by key
-func (c *Cache) Get(key string) (any, error) {
+func (c *Cache) Get(key string) (any, bool) {
 	if c == nil {
-		return nil, nilCache(c.namespace)
+		return nil, false
 	}
 	value, exists := c.storage.Load(key)
 	if !exists {
-		return nil, fmt.Errorf("key not found: %s", key)
+		return nil, false
 	}
-	return value, nil
+	return value, true
 }
 
 // Replace removes the value and replaces it with a new one
